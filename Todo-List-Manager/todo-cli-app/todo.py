@@ -13,3 +13,19 @@ def load_tasks ():
 def save_tasks(tasks):
     with open(TODO_FILE,"w") as file:
         json.dump(tasks,file, indent=4)    
+
+@click.group()
+def cli():
+    """Simple TOdo List Manager"""
+    pass
+
+@click.command()
+@click.argument("task")
+def add(task):
+    """Add a new task to the list"""
+    tasks = load_tasks
+    tasks.append({"task":task,"done":False})
+    save_tasks(tasks)
+    click.echo(f"Task added successfully: {task}")
+    
+cli.add_command(add)
